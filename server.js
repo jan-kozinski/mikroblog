@@ -1,28 +1,33 @@
 const path = require("path");
+const helmet = require("helmet");
 const express = require("express");
 const dotenv = require("dotenv");
 const colors = require("colors");
 const morgan = require("morgan");
-//const connectDB = require("./config/db");
+const connectDB = require("./config/db");
 
 //ROUTES
 
 //CONFIG
-//dotenv.config({ path: "./config/config.env" });
-//connectDB();
+dotenv.config({ path: "./config/config.env" });
+connectDB();
 const PORT = process.env.PORT || 5000;
 
 const app = express();
 
 //MIDDLEWARE
-app.use(express.json());
+
+app.use(helmet()); //helmet security headers
+
+app.use(express.json()); // json bodyparser
 
 if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
+  app.use(morgan("dev")); //morgan http requests logger
 }
 
 //ROUTES MIDDLEWARE
-//app.use("/api/v1/transactions", transactions);
+
+app.use("/api/mikroblog", require("./routes/posts"));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));

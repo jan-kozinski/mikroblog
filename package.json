@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js"
+    "start": "node server",
+    "build": "sed -i 's/NODE_ENV=development/NODE_ENV=production/' ./config/config.env && npm --prefix client run build",
+    "server": "nodemon server --ignore client/",
+    "client": "npm start --prefix client",
+    "dev": "sed -i 's/NODE_ENV=production/NODE_ENV=development/' ./config/config.env && concurrently \" npm run server \" \" npm run client \" "
   },
   "keywords": [],
   "author": "Dzony",
