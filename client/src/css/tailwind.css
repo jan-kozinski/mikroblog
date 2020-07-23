@@ -1,0 +1,9 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+.btn {
+  @apply cursor-pointer bg-orange-700 text-white border-none block text-lg mx-1 p-1 w-24;
+}
