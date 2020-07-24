@@ -12,17 +12,18 @@ const AddPost = (props) => {
       text,
     };
     props.addPost(newPost);
-    console.log(newPost);
+    setText("");
   };
 
   return (
-    <div className="post" style={{ padding: "2rem" }}>
+    <div className="post">
       <span className="font-bold m-16">Add Post</span>
       <form className="pt-4" onSubmit={onSubmit}>
         <textarea
           className="bg-gray-200 rounded resize-none block w-full p-2"
           style={{ minHeight: "10rem" }}
           onChange={(e) => setText(e.target.value)}
+          value={text}
         />
         <input className="btn ml-auto" type="submit" value="Submit" />
       </form>

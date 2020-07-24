@@ -20,5 +20,5 @@
   @apply btn bg-red-800;
 }
 .post {
-  @apply bg-white text-black m-4 py-16 px-8;
+  @apply bg-white text-black m-4 py-8 px-8;
 }

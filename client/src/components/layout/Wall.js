@@ -20,7 +20,7 @@ class Wall extends Component {
   render() {
     return (
       <>
-        <div className="flex sm:flex-col-reverse md:flex-row bg-gray-300 min-h-screen">
+        <div className="flex flex-col-reverse md:flex-row bg-gray-300 min-h-screen">
           <div id="offset" className="md:w-1/6 sm:w-0"></div>
           <div className="md:w-1/2 sm:w-full">
             <AddPost />
