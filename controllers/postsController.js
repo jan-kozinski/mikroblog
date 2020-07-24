@@ -11,7 +11,7 @@ exports.getPosts = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       count: posts.length,
-      data: posts,
+      posts: posts,
     });
   } catch (error) {
     console.log(error);
@@ -33,7 +33,7 @@ exports.addPost = async (req, res, next) => {
 
     return res.status(201).json({
       success: true,
-      data: post,
+      post,
     });
   } catch (error) {
     if (error.name === "ValidationError") {

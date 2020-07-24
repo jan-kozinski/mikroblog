@@ -2,32 +2,17 @@ import axios from "axios";
 import { GET_POSTS, ADD_POST, DELETE_POST, POSTS_LOADING } from "./types";
 import { returnErrors } from "./errorActions";
 
-// export const fetchPosts = () => async (dispatch) => {
-//   dispatch(setPostsLoading());
-//   try {
-//     const response = await axios.get("/api/mikroblog");
-//     dispatch({
-//       type: GET_POSTS,
-//       payload: { posts: response.data },
-//     });
-//   } catch (error) {
-//     dispatch(returnErrors(error.response.data, error.response.status));
-//   }
-// };
-
-export const fetchPosts = () => (dispatch) => {
+export const fetchPosts = () => async (dispatch) => {
   dispatch(setPostsLoading());
-  axios
-    .get("/api/mikroblog")
-    .then((res) =>
-      dispatch({
-        type: GET_POSTS,
-        payload: res.data,
-      })
-    )
-    .catch((err) => {
-      dispatch(returnErrors(err.response.data, err.response.status));
+  try {
+    const response = await axios.get("/api/mikroblog");
+    dispatch({
+      type: GET_POSTS,
+      payload: { posts: response.data.posts },
     });
+  } catch (error) {
+    dispatch(returnErrors(error.data, error.status));
+  }
 };
 
 export const addPost = (post) => async (dispatch) => {
@@ -36,7 +21,7 @@ export const addPost = (post) => async (dispatch) => {
   try {
     dispatch({
       type: ADD_POST,
-      payload: { newPost: response.data },
+      payload: { newPost: response.data.post },
     });
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
@@ -44,12 +29,12 @@ export const addPost = (post) => async (dispatch) => {
 };
 
 export const deletePost = (_id) => async (dispatch) => {
-  const response = await axios.delete(`api/mikroblog/${_id}`);
-
   try {
+    const response = await axios.delete(`api/mikroblog/${_id}`);
+
     dispatch({
       type: DELETE_POST,
-      payload: { _id: response.data },
+      payload: { _id },
     });
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));

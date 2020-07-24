@@ -5,5 +5,20 @@
 @tailwind utilities;
 
 .btn {
-  @apply cursor-pointer bg-orange-700 text-white border-none block text-lg mx-1 p-1 w-24;
+  @apply bg-orange-600 text-center p-1;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  color: #fff;
+  border: 0;
+  display: block;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.btn-danger {
+  @apply btn bg-red-800;
+}
+.post {
+  @apply bg-white text-black m-4 py-16 px-8;
 }

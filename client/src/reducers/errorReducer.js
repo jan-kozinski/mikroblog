@@ -1,7 +1,7 @@
 import { GET_ERRORS, CLEAR_ERRORS } from "../actions/types";
 
 const initialState = {
-  msg: { text: "siema" },
+  msg: {},
   status: null,
   id: null,
 };
