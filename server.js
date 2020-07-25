@@ -28,6 +28,7 @@ if (process.env.NODE_ENV === "development") {
 //ROUTES MIDDLEWARE
 
 app.use("/api/mikroblog", require("./routes/posts"));
+app.use("/api/users", require("./routes/auth"));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));

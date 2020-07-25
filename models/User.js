@@ -5,6 +5,7 @@ const UserSchema = new Schema({
   name: {
     type: String,
     required: true,
+    validate: /^\w{5,16}$/,
   },
   email: {
     type: String,

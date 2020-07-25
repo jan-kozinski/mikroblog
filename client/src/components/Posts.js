@@ -3,10 +3,6 @@ import { deletePost } from "../app-state/actions/postActions";
 import { connect } from "react-redux";
 
 function Posts(props) {
-  const onDeleteBtnClick = (e, _id) => () => {
-    e.preventDefault();
-    deletePost(_id);
-  };
   return (
     <div>
       {props.posts.map((post) => (
