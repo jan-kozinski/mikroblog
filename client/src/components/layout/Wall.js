@@ -6,6 +6,7 @@ import PostsLoading from "../PostsLoading";
 import Posts from "../Posts";
 import AddPost from "../AddPost";
 import Footer from "./Footer";
+import Userpannel from "../userpannel/Userpannel";
 
 class Wall extends Component {
   static propTypes = {
@@ -26,7 +27,9 @@ class Wall extends Component {
             <AddPost />
             <div>{this.props.isLoading ? <PostsLoading /> : <Posts />}</div>
           </div>
-          <div className="md:w-1/3 sm:w-full">userpannel</div>
+          <div className="md:w-1/3 sm:w-full">
+            <Userpannel />
+          </div>
         </div>
         <Footer />
       </>

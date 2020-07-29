@@ -8,8 +8,11 @@ const {
 } = require("../controllers/authController");
 const auth = require("../middleware/auth");
 
+//Register user
 router.post("/register", registerUser);
-router.post("/auth", auth, authUser);
+//Login user
+router.post("/auth", authUser);
+//Get user data
 router.get("/auth", auth, getUserData);
 
 module.exports = router;
