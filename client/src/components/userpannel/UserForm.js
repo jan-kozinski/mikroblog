@@ -28,13 +28,7 @@ function UserForm(props) {
           borderTop: "0.7rem solid #ff5500",
         }}
       />
-      <SlideDown>
-        {loginOverRegistration ? (
-          <Login login={props.login} />
-        ) : (
-          <Register register={props.register} />
-        )}
-      </SlideDown>
+      <SlideDown>{loginOverRegistration ? <Login /> : <Register />}</SlideDown>
 
       <hr className="w-11/12 mx-auto border-blue-900 mb-4" />
       <div

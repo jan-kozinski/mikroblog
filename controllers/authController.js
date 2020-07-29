@@ -35,34 +35,37 @@ exports.registerUser = async (req, res, next) => {
           newUser.password = hash;
 
           //Create a new user
-          newUser.save().then((user) => {
-            jwt.sign(
-              {
-                id: user.id,
-              },
-              process.env.JWT_SECRET,
-              { expiresIn: 7200 },
-              (err, token) => {
-                if (err) throw err;
+          newUser
+            .save()
+            .then((user) => {
+              jwt.sign(
+                {
+                  id: user.id,
+                },
+                process.env.JWT_SECRET,
+                { expiresIn: 7200 },
+                (err, token) => {
+                  if (err) throw err;
 
-                res.json({
-                  token,
-                  user: {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email,
-                  },
-                });
-              }
-            );
-          }).catch((error)=> res.status(500).json({succes:false, error}));
+                  res.json({
+                    token,
+                    user: {
+                      id: user.id,
+                      name: user.name,
+                      email: user.email,
+                    },
+                  });
+                }
+              );
+            })
+            .catch((error) => res.status(500).json({ succes: false, error }));
         });
       });
     });
   } catch (error) {
     res.status(400).json({
       succes: false,
-      error,
+      error: error.details[0].message,
     });
   }
 };

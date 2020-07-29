@@ -1,15 +1,17 @@
 import React from "react";
+import logo from "../../logo.png";
 
 export default function Navbar() {
   return (
-    <div className="w-auto bg-primary p-4 ">
+    <div className="w-auto bg-primary pl-4 ">
       <h1
-        className="w-32 p-4 pt-2 cursor-pointer
-         text-white  text-xl font-bold text-center
+        className="w-56 cursor-pointer flex items-center
+         text-white  text-3xl  text-center
          border-transparent border-solid border-b-4
          duration-150 hover:text-secondary hover:border-white
       "
       >
+        <img className="h-16 px-2" src={logo}></img>
         Mikroblog
       </h1>
     </div>
