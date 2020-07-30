@@ -9,7 +9,9 @@ const connectDB = require("./config/db");
 //ROUTES
 
 //CONFIG
-dotenv.config({ path: "./config/config.env" });
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: "./config/config.env" });
+}
 connectDB();
 const PORT = process.env.PORT || 5000;
 
