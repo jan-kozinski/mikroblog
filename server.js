@@ -1,9 +1,8 @@
 const path = require("path");
 const helmet = require("helmet");
 const express = require("express");
-
 const colors = require("colors");
-const morgan = require("morgan");
+
 const connectDB = require("./config/db");
 
 //ROUTES
@@ -12,6 +11,7 @@ const connectDB = require("./config/db");
 if (process.env.NODE_ENV !== "production") {
   const dotenv = require("dotenv");
   dotenv.config({ path: "./config/config.env" });
+  const morgan = require("morgan");
 }
 connectDB();
 const PORT = process.env.PORT || 5000;
