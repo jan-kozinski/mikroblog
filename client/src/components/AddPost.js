@@ -9,14 +9,13 @@ const AddPost = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (!props.isAuthenticated) {
-      console.log(props.isAuthenticated);
       return;
     }
     const newPost = {
       text,
       author: props.user.name,
     };
-    console.log(props.user);
+
     props.addPost(newPost);
     setText("");
   };
