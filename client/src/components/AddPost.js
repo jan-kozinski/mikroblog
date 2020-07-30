@@ -8,9 +8,15 @@ const AddPost = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (!props.isAuthenticated) {
+      console.log(props.isAuthenticated);
+      return;
+    }
     const newPost = {
       text,
+      author: props.user.name,
     };
+    console.log(props.user);
     props.addPost(newPost);
     setText("");
   };
@@ -20,12 +26,20 @@ const AddPost = (props) => {
       <span className="font-bold m-16">Add Post</span>
       <form className="pt-4" onSubmit={onSubmit}>
         <textarea
-          className="bg-gray-200 rounded resize-none block w-full p-2"
+          className={`rounded resize-none block w-full p-2
+           ${props.isAuthenticated ? "bg-gray-300" : "cursor-not-allowed"}`}
           style={{ minHeight: "10rem" }}
           onChange={(e) => setText(e.target.value)}
           value={text}
+          disabled={!props.isAuthenticated}
         />
-        <input className="btn ml-auto" type="submit" value="Submit" />
+        <input
+          className={`${
+            props.isAuthenticated ? "btn" : "btn-disabled"
+          } ml-auto`}
+          type="submit"
+          value="Submit"
+        />
       </form>
     </div>
   );
@@ -35,6 +49,9 @@ AddPost.propTypes = {
   addPost: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
+});
 
 export default connect(mapStateToProps, { addPost })(AddPost);

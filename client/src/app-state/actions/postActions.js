@@ -16,9 +16,8 @@ export const fetchPosts = () => async (dispatch) => {
 };
 
 export const addPost = (post) => async (dispatch) => {
-  const response = await axios.post("/api/mikroblog", post);
-
   try {
+    const response = await axios.post("/api/mikroblog", post);
     dispatch({
       type: ADD_POST,
       payload: { newPost: response.data.post },

@@ -16,8 +16,8 @@
   margin-bottom: 30px;
 }
 
-.shadow-btn {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+.btn-disabled {
+  @apply btn bg-gray-500 cursor-not-allowed;
 }
 
 .btn-danger {
@@ -25,4 +25,7 @@
 }
 .post {
   @apply bg-white text-black m-4 py-8 px-8;
+}
+.shadow-btn {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }

@@ -6,6 +6,11 @@ const PostSchema = new mongoose.Schema({
     trim: true,
     required: [true, "Please add some text"],
   },
+  author: {
+    type: String,
+    trim: true,
+    required: [true, "User must be logged in order to add a post"],
+  },
   createdAt: {
     type: Date,
     default: Date.now(),

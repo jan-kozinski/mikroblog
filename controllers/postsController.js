@@ -1,4 +1,5 @@
 const Post = require("../models/Post");
+const User = require("../models/User");
 
 //@desc     Get all transactions
 //@route    GET /api/mikroblog
@@ -28,7 +29,17 @@ exports.getPosts = async (req, res, next) => {
 
 exports.addPost = async (req, res, next) => {
   try {
-    const { text } = req.body;
+    const { text, author } = req.body;
+    // Get post author
+    const authorExist = User.findOne({ name: author });
+    // If author doesn't exists in DB return error
+    if (!authorExist)
+      return res.status(401).json({
+        success: false,
+        error: "No user found",
+      });
+
+    // Create the post
     const post = await Post.create(req.body);
 
     return res.status(201).json({
