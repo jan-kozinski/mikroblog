@@ -1,7 +1,7 @@
 const path = require("path");
 const helmet = require("helmet");
 const express = require("express");
-const dotenv = require("dotenv");
+
 const colors = require("colors");
 const morgan = require("morgan");
 const connectDB = require("./config/db");
@@ -10,6 +10,7 @@ const connectDB = require("./config/db");
 
 //CONFIG
 if (process.env.NODE_ENV !== "production") {
+  const dotenv = require("dotenv");
   dotenv.config({ path: "./config/config.env" });
 }
 connectDB();
