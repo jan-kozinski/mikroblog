@@ -1,3 +1,4 @@
 node_modules
 /config/config.env
+/config/Mikroblog-7d110262a673.json
 npm-debug.log*

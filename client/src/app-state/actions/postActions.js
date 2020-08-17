@@ -15,8 +15,23 @@ export const fetchPosts = () => async (dispatch) => {
   }
 };
 
-export const addPost = (post) => async (dispatch) => {
+export const addPost = (post, image) => async (dispatch) => {
   try {
+    if (image) {
+      try {
+        //Save image to cloud storage
+        const imgUrl = await axios({
+          method: "post",
+          url: "/api/upload",
+          data: image,
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        //Append img url to the post
+        post.imageURL = imgUrl.data.fileLocation;
+      } catch (error) {
+        console.error(error);
+      }
+    }
     const response = await axios.post("/api/mikroblog", post);
     dispatch({
       type: ADD_POST,

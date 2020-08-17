@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addPost } from "../app-state/actions/postActions";
+import UploadFile from "./UploadFile";
 
 const AddPost = (props) => {
   const [text, setText] = useState("");
+  const [fileFormData, setFileFormData] = useState(null);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -15,8 +17,11 @@ const AddPost = (props) => {
       text,
       author: props.user.name,
     };
+    //Check if post containts an image
+    fileFormData
+      ? props.addPost(newPost, fileFormData)
+      : props.addPost(newPost);
 
-    props.addPost(newPost);
     setText("");
   };
 
@@ -32,13 +37,15 @@ const AddPost = (props) => {
           value={text}
           disabled={!props.isAuthenticated}
         />
-        <input
-          className={`${
-            props.isAuthenticated ? "btn" : "btn-disabled"
-          } ml-auto`}
-          type="submit"
-          value="Submit"
-        />
+
+        <div className="flex flex-row justify-between">
+          <UploadFile setFileFormData={setFileFormData} />
+          <input
+            className={`${props.isAuthenticated ? "btn" : "btn-disabled"}`}
+            type="submit"
+            value="Submit"
+          />
+        </div>
       </form>
     </div>
   );

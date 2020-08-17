@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 
 function Posts(props) {
   const deletePost = (post) => {
-    if (props.user && post.author === props.user.name)
+    if (props.user && post.author === props.user.name) {
       props.deletePost(post._id);
-    else return;
+    } else return;
   };
 
   return (
@@ -16,6 +16,7 @@ function Posts(props) {
           <p className="font-bold text-secondary inline">{post.author}</p> says:
           <hr />
           {post.text}
+          {post.imageURL ? <img src={post.imageURL} alt="obrazek" /> : null}
           <button
             className={`${
               props.user && post.author === props.user.name

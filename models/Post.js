@@ -11,6 +11,10 @@ const PostSchema = new mongoose.Schema({
     trim: true,
     required: [true, "User must be logged in order to add a post"],
   },
+  imageURL: {
+    type: String,
+    trim: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
