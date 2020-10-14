@@ -1,38 +1,83 @@
 import axios from "axios";
-import { GET_POSTS, ADD_POST, DELETE_POST, POSTS_LOADING } from "./types";
+import {
+  GET_POSTS,
+  GET_POST_LIKES,
+  ADD_POST,
+  DELETE_POST,
+  POSTS_LOADING,
+} from "./types";
+import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
 
-export const fetchPosts = () => async (dispatch) => {
+export const fetchPosts = (page = 1, limit = 10) => async (dispatch) => {
   dispatch(setPostsLoading());
   try {
-    const response = await axios.get("/api/mikroblog");
+    const response = await axios.get(
+      `/api/mikroblog?page=${page}&limit=${limit}`
+    );
+
+    let data = {};
+    data.posts = response.data.posts;
+    data.nextPage = response.data.nextPage ? response.data.nextPage : false;
+    data.prevPage = response.data.prevPage ? response.data.prevPage : false;
+
     dispatch({
       type: GET_POSTS,
-      payload: { posts: response.data.posts },
+      payload: { ...data },
     });
   } catch (error) {
-    dispatch(returnErrors(error.data, error.status));
+    dispatch(returnErrors(error.response.data, error.response.status));
+    dispatch({
+      type: GET_POSTS,
+      payload: { posts: [], prevPage: false, nextPage: false },
+    });
   }
 };
 
-export const addPost = (post, image) => async (dispatch) => {
+export const togglePostLike = (id) => async (dispatch, getState) => {
+  if (!getState().auth.isAuthenticated) return;
+
+  try {
+    const response = await axios.post(
+      `/api/like/${id}`,
+      {},
+      tokenConfig(getState)
+    );
+    dispatch({
+      type: GET_POST_LIKES,
+      payload: {
+        id: id,
+        likes: response.data.likes,
+        likersIds: response.data.likersIds,
+      },
+    });
+  } catch (error) {
+    dispatch(returnErrors(error.response.data, error.response.status));
+  }
+};
+
+export const addPost = (post, image) => async (dispatch, getState) => {
   try {
     if (image) {
       try {
         //Save image to cloud storage
-        const imgUrl = await axios({
-          method: "post",
-          url: "/api/upload",
-          data: image,
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        let headers = tokenConfig(getState);
+        headers.headers["Content-Type"] = "multipart/form-data";
+
+        const imageData = await axios.post("/api/upload", image, headers);
+
         //Append img url to the post
-        post.imageURL = imgUrl.data.fileLocation;
+        post.imageURL = imageData.data.fileLocation;
+        post.imageKey = imageData.data.key;
       } catch (error) {
         console.error(error);
       }
     }
-    const response = await axios.post("/api/mikroblog", post);
+    const response = await axios.post(
+      "/api/mikroblog",
+      post,
+      tokenConfig(getState)
+    );
     dispatch({
       type: ADD_POST,
       payload: { newPost: response.data.post },
@@ -42,9 +87,12 @@ export const addPost = (post, image) => async (dispatch) => {
   }
 };
 
-export const deletePost = (_id) => async (dispatch) => {
+export const deletePost = (_id) => async (dispatch, getState) => {
   try {
-    const response = await axios.delete(`api/mikroblog/${_id}`);
+    const response = await axios.delete(
+      `api/mikroblog/${_id}`,
+      tokenConfig(getState)
+    );
 
     dispatch({
       type: DELETE_POST,

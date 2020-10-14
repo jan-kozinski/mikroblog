@@ -29,7 +29,6 @@ class Userpannel extends Component {
             <div>
               {this.props.isAuthenticated ? (
                 <div>
-                  działa
                   <UserInfo />
                 </div>
               ) : (

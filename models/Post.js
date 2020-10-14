@@ -11,9 +11,26 @@ const PostSchema = new mongoose.Schema({
     trim: true,
     required: [true, "User must be logged in order to add a post"],
   },
+  authorId: {
+    type: String,
+    trim: true,
+    required: [true, "User must be logged in order to add a post"],
+  },
   imageURL: {
     type: String,
     trim: true,
+  },
+  imageKey: {
+    type: String,
+    trim: true,
+  },
+  likes: {
+    type: Number,
+    default: 0,
+  },
+  likersIds: {
+    type: [{ type: String }],
+    default: [],
   },
   createdAt: {
     type: Date,

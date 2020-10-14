@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const multer = require("multer");
-const bucket = require("../config/bucketConfig");
+const { v4: uuid } = require("uuid");
 
-//TEST file upload api
+const s3 = require("../config/s3");
 
 // Initiating a memory storage engine to store files as Buffer objects
 const uploader = multer({
@@ -12,7 +12,7 @@ const uploader = multer({
   },
 });
 
-// Upload endpoint to send file to Firebase storage bucket
+// Upload endpoint to send file to AWS S3 bucket
 router.post("/", uploader.single("image"), async (req, res, next) => {
   try {
     if (!req.file) {
@@ -33,34 +33,29 @@ router.post("/", uploader.single("image"), async (req, res, next) => {
       return;
     }
 
-    // Create new blob in the bucket referencing the file
-    const blob = bucket.file(req.file.originalname);
+    //determine file extension
+    let fileName = req.file.originalname.split(".");
+    const fileType = fileName[fileName.length - 1];
 
-    // Create writable stream and specifying file mimetype
-    const blobWriter = blob.createWriteStream({
-      metadata: {
-        contentType: req.file.mimetype,
-      },
-    });
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: `${uuid()}.${fileType}`,
+      Body: req.file.buffer,
+    };
 
-    blobWriter.on("error", (err) => next(err));
+    //Upload file to the S3 storage
+    s3.upload(params, (error, data) => {
+      if (error) {
+        return res.status(500).send(error);
+      }
 
-    blobWriter.on("finish", () => {
-      // Assembling public URL for accessing the file via HTTP
-      const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
-        bucket.name
-      }/o/${encodeURI(blob.name)}?alt=media`;
-
-      // Return the file name and its public URL
       res.status(200).json({
         succes: true,
         fileName: req.file.originalname,
-        fileLocation: publicUrl,
+        fileLocation: data.Location,
+        key: data.Key,
       });
     });
-
-    // When there is no more data to be consumed from the stream
-    blobWriter.end(req.file.buffer);
   } catch (error) {
     res
       .status(400)

@@ -11,8 +11,8 @@ export default function Navbar() {
          duration-150 hover:text-secondary hover:border-white
       "
       >
-        <img className="h-16 px-2" src={logo}></img>
-        Mikroblog
+        <img className="h-16 px-2" src={logo} alt="logo"></img>
+        <a href="/">Mikroblog</a>
       </h1>
     </div>
   );

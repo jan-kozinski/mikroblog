@@ -10,12 +10,13 @@ const AddPost = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!props.isAuthenticated) {
+    if (!props.isAuthenticated || !text) {
       return;
     }
     const newPost = {
       text,
       author: props.user.name,
+      authorId: props.user._id,
     };
     //Check if post containts an image
     fileFormData
@@ -41,7 +42,9 @@ const AddPost = (props) => {
         <div className="flex flex-row justify-between">
           <UploadFile setFileFormData={setFileFormData} />
           <input
-            className={`${props.isAuthenticated ? "btn" : "btn-disabled"}`}
+            className={`${
+              props.isAuthenticated && text ? "btn" : "btn-disabled"
+            }`}
             type="submit"
             value="Submit"
           />

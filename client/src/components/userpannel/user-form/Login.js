@@ -48,7 +48,7 @@ function Login(props) {
         <input
           type="password"
           name="password"
-          className={`my-4 bg-gray-200 rounded block w-full p-2 ${
+          className={`my-2 bg-gray-200 rounded block w-full p-2 ${
             formHasEmptyFields && !password ? "border border-red-800" : ""
           }`}
           placeholder="password"

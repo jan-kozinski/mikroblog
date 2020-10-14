@@ -7,6 +7,8 @@ import Posts from "../Posts";
 import AddPost from "../AddPost";
 import Footer from "./Footer";
 import Userpannel from "../userpannel/Userpannel";
+import Paginator from "../Paginator";
+import { useParams } from "react-router-dom";
 
 class Wall extends Component {
   static propTypes = {
@@ -15,19 +17,23 @@ class Wall extends Component {
   };
 
   componentDidMount() {
-    this.props.fetchPosts();
+    let { page } = this.props;
+
+    if (page && page > 0) this.props.fetchPosts(page);
+    else this.props.fetchPosts();
   }
 
   render() {
     return (
       <>
-        <div className="flex flex-col-reverse md:flex-row bg-gray-300 min-h-screen">
-          <div id="offset" className="md:w-1/6 sm:w-0"></div>
-          <div className="md:w-1/2 sm:w-full">
+        <div className="flex flex-col-reverse limit-width xl:mx-auto lg:flex-row min-h-screen ">
+          <div id="offset" className="xl:w-1/6 sm:w-0"></div>
+          <div className="xl:w-1/2 lg:w-2/3 md:w-4/5 md:mx-auto sm:w-full">
             <AddPost />
             <div>{this.props.isLoading ? <PostsLoading /> : <Posts />}</div>
+            <Paginator />
           </div>
-          <div className="md:w-1/3 sm:w-full">
+          <div className="lg:w-1/3 md:w-4/5 md:mx-auto sm:w-full">
             <Userpannel />
           </div>
         </div>

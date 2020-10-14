@@ -36,7 +36,9 @@ if (morgan) {
 app.use("/api/mikroblog", require("./routes/posts"));
 app.use("/api/users", require("./routes/auth"));
 app.use("/api/upload", require("./routes/upload"));
+app.use("/api/like", require("./routes/like"));
 
+//SEND HTML FILE IN PRODUCTION MODE
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 
