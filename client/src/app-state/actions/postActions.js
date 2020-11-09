@@ -9,12 +9,18 @@ import {
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
 
-export const fetchPosts = (page = 1, limit = 10) => async (dispatch) => {
+export const fetchPosts = (page = 1,specifiedAuthor, postsPerPage = 10) => async (dispatch) => {
   dispatch(setPostsLoading());
   try {
-    const response = await axios.get(
-      `/api/mikroblog?page=${page}&limit=${limit}`
+    const response = 
+    specifiedAuthor ? await axios.get(
+      `/api/mikroblog/author/${specifiedAuthor}?page=${page}&limit=${postsPerPage}`
+    )
+
+    : await axios.get(
+      `/api/mikroblog?page=${page}&limit=${postsPerPage}`
     );
+    
 
     let data = {};
     data.posts = response.data.posts;

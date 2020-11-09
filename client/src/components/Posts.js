@@ -17,35 +17,9 @@ function Posts(props) {
         <div className="post" key={post._id}>
           <span className="flex flex-row justify-between">
             <p>
-              <p className="font-bold text-secondary inline">{post.author}</p>{" "}
+              <a className="font-bold text-secondary inline" href={`/user/${post.author}`}>{post.author}</a>{" "}
               says:
             </p>
-            {/* <p>
-              <i
-                className={`
-                fas fa-heart ${
-                  props.user && post.likersIds.includes(props.user._id)
-                    ? ""
-                    : "hover:"
-                }text-pink-700`}
-                onClick={() => {
-                  props.togglePostLike(post._id);
-                }}
-                onMouseEnter={(e) => {
-                  if (props.user && post.likersIds.includes(props.user._id)) {
-                    e.target.classList.remove("fa-heart");
-                    e.target.classList.add("fa-heart-broken");
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (props.user && post.likersIds.includes(props.user._id)) {
-                    e.target.classList.add("fa-heart");
-                    e.target.classList.remove("fa-heart-broken");
-                  }
-                }}
-              ></i>
-              {post.likes}
-            </p> */}
             <LikeButton post={post} />
           </span>
           <hr />
