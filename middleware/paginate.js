@@ -29,7 +29,6 @@ function paginateResults(model) {
     try {
       //Check if only posts of one specified user are needed
       if (req.params.authorname) {
-        console.log("dziala", req.params.authorname);
         results.currentPagePosts = await model
           .find({ author: req.params.authorname })
           .sort({ createdAt: -1 })
@@ -37,7 +36,6 @@ function paginateResults(model) {
           .skip(startIndex)
           .exec();
       } else {
-        console.log(req.params);
         results.currentPagePosts = await model
           .find()
           .sort({ createdAt: -1 })

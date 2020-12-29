@@ -34,7 +34,7 @@ router.route("/:id").post(auth, async (req, res) => {
         }
       );
     }
-    console.log(likersIdsToRespond);
+
     res.status(200).json({
       succes: true,
       likes: likesCountToRespond,

@@ -16,7 +16,8 @@ const connectDB = async () => {
     //     postsBoilerplate.push({
     //       text: `Post number ${i}, lorem ipsum jebać pis`,
     //       author: "cycu_kiepski",
-    //       authorId: "5f22bf81f0fa233f57c8fe80",
+    //       authorId: "5fe8873fcc4b5606258e0833",
+    //       createdAt: new Date(),
     //     });
     //   }
 

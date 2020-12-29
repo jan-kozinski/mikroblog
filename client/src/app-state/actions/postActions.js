@@ -8,19 +8,20 @@ import {
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
+import { broadcastThatPostWasAdded } from "./socketActions";
 
-export const fetchPosts = (page = 1,specifiedAuthor, postsPerPage = 10) => async (dispatch) => {
+export const fetchPosts = (
+  page = 1,
+  specifiedAuthor,
+  postsPerPage = 10
+) => async (dispatch) => {
   dispatch(setPostsLoading());
   try {
-    const response = 
-    specifiedAuthor ? await axios.get(
-      `/api/mikroblog/author/${specifiedAuthor}?page=${page}&limit=${postsPerPage}`
-    )
-
-    : await axios.get(
-      `/api/mikroblog?page=${page}&limit=${postsPerPage}`
-    );
-    
+    const response = specifiedAuthor
+      ? await axios.get(
+          `/api/mikroblog/author/${specifiedAuthor}?page=${page}&limit=${postsPerPage}`
+        )
+      : await axios.get(`/api/mikroblog?page=${page}&limit=${postsPerPage}`);
 
     let data = {};
     data.posts = response.data.posts;
@@ -84,10 +85,17 @@ export const addPost = (post, image) => async (dispatch, getState) => {
       post,
       tokenConfig(getState)
     );
-    dispatch({
-      type: ADD_POST,
-      payload: { newPost: response.data.post },
-    });
+    if (response.data.success) {
+      console.log(response.data);
+      console.log(post);
+      console.log(tokenConfig(getState));
+      dispatch(broadcastThatPostWasAdded());
+
+      dispatch({
+        type: ADD_POST,
+        payload: { newPost: response.data.post },
+      });
+    }
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }
@@ -96,7 +104,7 @@ export const addPost = (post, image) => async (dispatch, getState) => {
 export const deletePost = (_id) => async (dispatch, getState) => {
   try {
     const response = await axios.delete(
-      `api/mikroblog/${_id}`,
+      `/api/mikroblog/${_id}`,
       tokenConfig(getState)
     );
 

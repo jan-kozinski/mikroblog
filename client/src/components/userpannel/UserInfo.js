@@ -18,10 +18,18 @@ const UserInfo = (props) => {
         </div>
 
         <div id="userpanel-grid" className="grid grid-cols-2 mx-4 gap-1">
-          <a href='#' className="panel-tiles">messages</a >
-          <a href='#' className="panel-tiles">settings</a >
-          <a href={`/user/${props.user.name}`} className="panel-tiles">your posts</a>
-          <a href='#' className="panel-tiles">friends</a>
+          <a href="/messages" className="panel-tiles">
+            messages
+          </a>
+          <a href="#" className="panel-tiles">
+            settings
+          </a>
+          <a href={`/user/${props.user.name}`} className="panel-tiles">
+            your posts
+          </a>
+          <a href="#" className="panel-tiles">
+            friends
+          </a>
         </div>
 
         <button className="mr-4 ml-auto w-24 btn" onClick={onLogoutClick}>
