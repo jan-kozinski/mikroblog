@@ -63,7 +63,7 @@ exports.addPost = async (req, res, next) => {
       });
 
     // Create the post
-    const post = await Post.create(req.body);
+    const post = await Post.create({ ...req.body, createdAt: new Date() });
 
     return res.status(201).json({
       success: true,
