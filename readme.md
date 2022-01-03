@@ -1,4 +1,4 @@
-microblogging platform made for educational purposes. Project is abandond, but have been rewritten, and the newer version is still being developed. Too see the newer version proceed to https://github.com/jan-kozinski/mikroblog-v2
+Microblogging platform made for educational purposes. Project is abandoned, but have been rewritten, and the newer version is still being developed. Too see the newer version proceed to https://github.com/jan-kozinski/mikroblog-v2
 <h3> Necessary variables: </h3>
 <h5>JWT_SECRET</h5>     -can be any string value  <br />
 <h5>MONGODB_URI</h5>    -your Mongo database URI address  <br />
