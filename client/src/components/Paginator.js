@@ -2,14 +2,16 @@ import React, { Component } from "react";
 import { fetchPosts } from "../app-state/actions/postActions";
 import { connect } from "react-redux";
 
-const Paginator = ({ prevPage, nextPage, fetchPosts }) => {
+const Paginator = ({ prevPage, nextPage, fetchPosts, specifiedAuthor }) => {
   let currentPage = 1;
   if (nextPage.page) currentPage = nextPage.page - 1;
   else if (prevPage.page) currentPage = prevPage.page + 1;
 
   const changePage = (page) => {
-    window.history.pushState({}, `Mikroblog - page ${page}`, `/page/${page}`);
-    fetchPosts(page);
+    let currentBaseUrl = window.location.href.replace(/\/page\/[0-9]+|\/$/g, '');
+    window.history.pushState({}, `Mikroblog - page ${page}`, `${currentBaseUrl}/page/${page}`);
+    if(specifiedAuthor) fetchPosts(page, specifiedAuthor);
+    else fetchPosts(page);
     window.scrollTo(0, 0);
   };
   return (

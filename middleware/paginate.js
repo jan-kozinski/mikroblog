@@ -6,7 +6,7 @@ function paginateResults(model) {
     //If the page or limit is not specified asign it a defualt value
     if (!page || !limit) {
       return res.redirect(
-        `/api/mikroblog?page=${page ? page : 1}&limit=${limit ? limit : 10}`
+        `?page=${page ? page : 1}&limit=${limit ? limit : 10}`
       );
     }
     const startIndex = (page - 1) * limit;
@@ -27,12 +27,22 @@ function paginateResults(model) {
       };
 
     try {
-      results.currentPagePosts = await model
-        .find()
-        .sort({ createdAt: -1 })
-        .limit(limit)
-        .skip(startIndex)
-        .exec();
+      //Check if only posts of one specified user are needed
+      if (req.params.authorname) {
+        results.currentPagePosts = await model
+          .find({ author: req.params.authorname })
+          .sort({ createdAt: -1 })
+          .limit(limit)
+          .skip(startIndex)
+          .exec();
+      } else {
+        results.currentPagePosts = await model
+          .find()
+          .sort({ createdAt: -1 })
+          .limit(limit)
+          .skip(startIndex)
+          .exec();
+      }
       res.paginatedResults = results;
       next();
     } catch (error) {

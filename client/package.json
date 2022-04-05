@@ -16,6 +16,7 @@
     "react-text-transition": "^1.1.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "socket.io-client": "^3.0.1",
     "tailwindcss": "^1.5.2"
   },
   "scripts": {

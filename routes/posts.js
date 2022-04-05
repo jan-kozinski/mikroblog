@@ -11,6 +11,7 @@ const Post = require("../models/Post");
 
 //Fetch page of posts
 router.route("/").get(paginateResults(Post), getPosts).post(addPost);
+router.route("/author/:authorname").get(paginateResults(Post), getPosts);
 
 //Delete post of given id,
 //user must be logged as an author of the post to proceed

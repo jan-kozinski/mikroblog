@@ -4,10 +4,12 @@ import {
   DELETE_POST,
   POSTS_LOADING,
   GET_POST_LIKES,
+  SOCKET_RECEIVED_NEW_POST_INFO,
 } from "../actions/types";
 
 const initialState = {
   posts: [],
+  postsAddedSinceLastFetching: 0,
   loading: false,
   nextPage: false,
   prevPage: false,
@@ -20,6 +22,7 @@ export default function postReducer(state = initialState, action) {
         ...state,
         loading: false,
         posts: action.payload.posts,
+        postsAddedSinceLastFetching: 0,
         nextPage: action.payload.nextPage,
         prevPage: action.payload.prevPage,
       };
@@ -52,6 +55,11 @@ export default function postReducer(state = initialState, action) {
       return {
         ...state,
         loading: true,
+      };
+    case SOCKET_RECEIVED_NEW_POST_INFO:
+      return {
+        ...state,
+        postsAddedSinceLastFetching: state.postsAddedSinceLastFetching + 1,
       };
     default:
       return state;
